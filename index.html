@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>Get data from form</title>
+	</head>
+	<link rel="stylesheet" type="text/css" href="style.css">
+	<body>
+
+		<div class="loader">
+
+		</div>
+		<h1>Get data from form</h1>
+		<!--
+			ON NE VEUT PAS DE FORMULAIRE CLASSIQUE CAR ON NE VEUT PAS RECHARGER TOUTE LA PAGE
+			DONC PAS BESOIN DE METHOD ET SURTOUT, ON REMPLACE LE SUBMIT PAR UN BUTTON (EN PRECISANT TYPE="BUTTON"), CE QUI EMPECHE L'ENVOI DU FORMULAIRE
+			ON DEFINIT EGALEMENT UNE METHODE A APPELER (CALLAPI() ICI)
+		-->
+		<form name="inscription" id="inscription">
+			<input type="text" name="pseudo" placeholder="Ville" id="input-city" value="paris"><br><!-- ID ET CLASSES HTML EN KEBAB CASE OU SNAKE CASE -->
+
+			<button type="button" onclick="callApi()">Submit</button>
+		</form>
+
+		<p style="color: red;" id="error"></p>
+		<div class="apiResult">
+			<h2>Ville : <p id="city-name"></p></h2>
+			<h2>Département : <p id="city-departement"></p></h2>
+			<h2>weatherstack api</h2>
+			<img class="spinner" id="disp-weatherstack">
+			<table class="api-info">
+				<tr>
+					<td>Description :<div id="weatherstack-weather-descriptions"></div></td>
+					<td>Humidité :<div id="weatherstack-humidity"></div></td>
+					<td>Pression :<div id="weatherstack-pressure"></div></td>
+				</tr>
+				<tr>
+					<td>Temperature :<div id="weatherstack-temperature"></div>°C</td>
+					<td>Direction du vent :<div id="weatherstack-wind-direction"></div></td>
+					<td>Vitesse du vent :<div id="weatherstack-wind-speed"></div>km/h</td>
+				</tr>
+			</table>
+			<h2>previsionsmeteo</h2>
+			<img class="spinner" id="disp-previsionsmeteo">	
+			<table>
+				<tr>
+					<td>Description :<div id="previsionsmeteo-weather-descriptions"></div></td>
+					<td>Humidité :<div id="previsionsmeteo-humidity"></div></td>
+					<td>Pression :<div id="previsionsmeteo-pressure"></div></td>
+				</tr>
+				<tr>
+					<td>Temperature :<div id="previsionsmeteo-temperature"></div>°C</td>
+					<td>Direction du vent :<div id="previsionsmeteo-wind-direction"></div></td>
+					<td>Vitesse du vent :<div id="previsionsmeteo-wind-speed"></div>km/h</td>
+				</tr>
+			</table>
+
+			<h2>meteoConcept</h2>
+			<img class="spinner" id="disp-meteoconcept">	
+			<table>
+				<tr>
+					<td>Description :<div id="meteoconcept-weather-descriptions"></div></td>
+					<td>Humidité :<div id="meteoconcept-humidity"></div></td>
+					<td>Pression :<div id="meteoconcept-pressure"></div></td>
+				</tr>
+				<tr>
+					<td>Temperature :<div id="meteoconcept-temperature"></div>°C</td>
+					<td>Direction du vent :<div id="meteoconcept-wind-direction"></div></td>
+					<td>Vitesse du vent :<div id="meteoconcept-wind-speed"></div>km/h</td>
+				</tr>
+			</table>
+		</div>	
+			
+
+
+		
+		<script src="index.js"></script>
+
+	</body>
+</html>​
