@@ -1,7 +1,7 @@
 async function callApi() {
 	const loader = document.getElementsByClassName("loader");
-	//const weatherstackloader = document.getElementById("disp-weatherstack");
-	//const previsionsmeteoloader = document.getElementById("disp-previsionsmeteo");
+	const weatherstackloader = document.getElementById("disp-weatherstack");
+	const previsionsmeteoloader = document.getElementById("disp-previsionsmeteo");
 	const button = document.querySelector('button')
 	button.disabled = true;
 	let error;
@@ -17,13 +17,14 @@ async function callApi() {
 		return;
 	}
 	loader.src = "loader.gif"
-	//weatherstackloader.src = "loader.gif";
-	//previsionsmeteoloader.src = "loader.gif";
-	//apigeo(city);
+	weatherstackloader.src = "loader.gif";
+	previsionsmeteoloader.src = "loader.gif";
+	apigeo(city);
 	console.log(city);
 	await apigeo(city);
 	weatherstackApi(city);
 	previsionmeteoApi(city);
+	console.log("test nono");
 
 
 	button.disabled = false;
