@@ -1,4 +1,4 @@
-function callApi() {
+async function callApi() {
 	const spinner = document.getElementsByClassName("spinner");
 	//const weatherstackSpinner = document.getElementById("disp-weatherstack");
 	//const previsionsmeteoSpinner = document.getElementById("disp-previsionsmeteo");
@@ -21,7 +21,7 @@ function callApi() {
 	//previsionsmeteoSpinner.src = "loader.gif";
 	//apigeo(city);
 	console.log(city);
-	apigeo(city);
+	await apigeo(city);
 	weatherstackApi(city);
 	previsionmeteoApi(city);
 
@@ -45,7 +45,6 @@ function apigeo(city) {
 			console.log(codeInsee)
 			meteoConcept(codeInsee);
 					});
-
 }
 
 function weatherstackApi(city) {
