@@ -19,12 +19,11 @@ async function callApi() {
 	loader.src = "loader.gif"
 	weatherstackloader.src = "loader.gif";
 	previsionsmeteoloader.src = "loader.gif";
-	apigeo(city);
 	console.log(city);
-	await apigeo(city);
+	let codeInsee = await apigeo(city);
 	weatherstackApi(city);
 	previsionmeteoApi(city);
-	console.log("test nono");
+	meteoConcept(codeInsee);
 
 
 	button.disabled = false;
@@ -41,11 +40,11 @@ async function apigeo(city) {
 	city_name.innerText = data[0].nom;
 	city_departement.innerText = data[0].departement.code;
 	let codeInsee = data[0].code;
-	console.log(codeInsee)
-	meteoConcept(codeInsee);
+	console.log(codeInsee);
+	return codeInsee;
 }
 
-function weatherstackApi(city) {
+async function weatherstackApi(city) {
 	const accessKey = "fcece908fe429e785ee4a28314e30573";
 	const url = `http://api.weatherstack.com/current?access_key=${accessKey}&query=${city}`;
 	const outputCity = document.getElementById("disp-weatherstack");
@@ -56,29 +55,26 @@ function weatherstackApi(city) {
 	let windDir = document.getElementById("weatherstack-wind-direction");	
 	let windSpeed = document.getElementById("weatherstack-wind-speed");
 	const promise = fetch(url);
-	promise
-		.then(res => res.json())
-		.then(data => {
-			humidity.innerText = data.current.humidity;
-			pressure.innerText = data.current.pressure;
-			temperature.innerText = data.current.temperature;
-			windDir.innerText = data.current.wind_dir;
-			windSpeed.innerText = data.current.wind_speed;
-			let weatherCode = data.current.weather_code;
-			let weatherCodeLocal = weatherCodeWeatherStack(weatherCode);
-			structureTest = giveRightTextAndIcon(weatherCodeLocal);
-			weatherDesscription.innerText = structureTest.weatherDescription;
-			outputCity.src = structureTest.iconUrl;
-					});
+	let response = await fetch(url);
+	let data = await response.json();
+	humidity.innerText = data.current.humidity;
+	pressure.innerText = data.current.pressure;
+	temperature.innerText = data.current.temperature;
+	windDir.innerText = data.current.wind_dir;
+	windSpeed.innerText = data.current.wind_speed;
+	let weatherCode = data.current.weather_code;
+	let weatherCodeLocal = weatherCodeWeatherStack(weatherCode);
+	structureTest = giveRightTextAndIcon(weatherCodeLocal);
+	weatherDesscription.innerText = structureTest.weatherDescription;
+	outputCity.src = structureTest.iconUrl;
 
-		
 }
 
 
 
 //lien vers l'api :  https://www.prevision-meteo.ch/services
 //sa doc pour json : https://www.prevision-meteo.ch/uploads/pdf/recuperation-donnees-meteo.pdf
-function previsionmeteoApi (city) {
+async function previsionmeteoApi (city) {
 	const url = `https://www.prevision-meteo.ch/services/json/${city}`;
 	const outputCity = document.getElementById("disp-previsionsmeteo");
 	let weatherDesscription = document.getElementById("previsionsmeteo-weather-descriptions");
@@ -88,51 +84,45 @@ function previsionmeteoApi (city) {
 	let windDir = document.getElementById("previsionsmeteo-wind-direction");	
 	let windSpeed = document.getElementById("previsionsmeteo-wind-speed");
 	const promise = fetch(url);
-	promise
-		.then(res => res.json())
-		.then(data => {
-			humidity.innerText = data.current_condition.humidity;
-			pressure.innerText = data.current_condition.pressure;
-			temperature.innerText = data.current_condition.tmp;
-			windDir.innerText = data.current_condition.wnd_dir;
-			windSpeed.innerText = data.current_condition.wnd_spd;
-			const weatherCode = data.current_condition.condition;
-			let weatherCodeLocal = weatherCodePrevisionsMeteo(weatherCode);
-			structureTest = giveRightTextAndIcon(weatherCodeLocal);
-			weatherDesscription.innerText = structureTest.weatherDescription;
-			outputCity.src = structureTest.iconUrl;		
-		});
-		
-
+	let response = await fetch(url);
+	let data = await response.json();
+	humidity.innerText = data.current_condition.humidity;
+	pressure.innerText = data.current_condition.pressure;
+	temperature.innerText = data.current_condition.tmp;
+	windDir.innerText = data.current_condition.wnd_dir;
+	windSpeed.innerText = data.current_condition.wnd_spd;
+	const weatherCode = data.current_condition.condition;
+	let weatherCodeLocal = weatherCodePrevisionsMeteo(weatherCode);
+	structureTest = giveRightTextAndIcon(weatherCodeLocal);
+	weatherDesscription.innerText = structureTest.weatherDescription;
+	outputCity.src = structureTest.iconUrl;
 }
 
-function meteoConcept(codeInsee) {
+async function meteoConcept(codeInsee) {
 	const accessKey = "8eea2f3c24232fdb26e1c409ac3bf10fe27600e0e6795c02052d8e113d29e91f";
 	const url = `https://api.meteo-concept.com/api/forecast/nextHours?token=${accessKey}&insee=77139`;
 	console.log(url);
 	const outputCity = document.getElementById("disp-meteoconcept");
 	let weatherDesscription = document.getElementById("meteoconcept-weather-descriptions");
 	let humidity = document.getElementById("meteoconcept-humidity");
-	let pressure  = document.getElementById("meteoconcept-pressure");
-	let temperature  = document.getElementById("meteoconcept-temperature");	
-	let windDir = document.getElementById("meteoconcept-wind-direction");	
+	let pressure = document.getElementById("meteoconcept-pressure");
+	let temperature = document.getElementById("meteoconcept-temperature");
+	let windDir = document.getElementById("meteoconcept-wind-direction");
 	let windSpeed = document.getElementById("meteoconcept-wind-speed");
 	let promise = fetch(url);
-	promise
-		.then(res => res.json())
-		.then(data => {
-			console.log(data);
-			humidity.innerText = data.forecast[0].rh2m;			
-			windDir.innerText = convertorDegreeToString (data.forecast[0].dirwind10m);
-			windSpeed.innerText = data.forecast[0].wind10m
-			temperature.innerText = data.forecast[0].temp2m;
-			const weatherCode = data.forecast[0].weather;
-			let weatherCodeLocal = weatherCodeMeteoConcept (weatherCode);
-			structureTest = giveRightTextAndIcon(weatherCodeLocal);
-			weatherDesscription.innerText = structureTest.weatherDescription;
-			outputCity.src = structureTest.iconUrl;
-					});}
-		
+	let response = await fetch(url);
+	let data = await response.json();
+	console.log(data);
+	humidity.innerText = data.forecast[0].rh2m;
+	windDir.innerText = convertorDegreeToString(data.forecast[0].dirwind10m);
+	windSpeed.innerText = data.forecast[0].wind10m
+	temperature.innerText = data.forecast[0].temp2m;
+	const weatherCode = data.forecast[0].weather;
+	let weatherCodeLocal = weatherCodeMeteoConcept(weatherCode);
+	structureTest = giveRightTextAndIcon(weatherCodeLocal);
+	weatherDesscription.innerText = structureTest.weatherDescription;
+	outputCity.src = structureTest.iconUrl;
+}
 
 function convertorDegreeToString (dirwind10m)
 {	
