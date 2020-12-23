@@ -1,7 +1,7 @@
 async function callApi() {
-	const spinner = document.getElementsByClassName("spinner");
-	//const weatherstackSpinner = document.getElementById("disp-weatherstack");
-	//const previsionsmeteoSpinner = document.getElementById("disp-previsionsmeteo");
+	const loader = document.getElementsByClassName("loader");
+	const weatherstackloader = document.getElementById("disp-weatherstack");
+	const previsionsmeteoloader = document.getElementById("disp-previsionsmeteo");
 	const button = document.querySelector('button')
 	button.disabled = true;
 	let error;
@@ -16,35 +16,33 @@ async function callApi() {
 		document.getElementById("error").innerHTML = error;
 		return;
 	}
-	spinner.src = "loader.gif"
-	//weatherstackSpinner.src = "loader.gif";
-	//previsionsmeteoSpinner.src = "loader.gif";
-	//apigeo(city);
+	loader.src = "loader.gif"
+	weatherstackloader.src = "loader.gif";
+	previsionsmeteoloader.src = "loader.gif";
+	apigeo(city);
 	console.log(city);
 	await apigeo(city);
 	weatherstackApi(city);
 	previsionmeteoApi(city);
+	console.log("test nono");
 
 
 	button.disabled = false;
 
 }
 //https://api.gouv.fr/les-api/api-geo
-function apigeo(city) {
+async function apigeo(city) {
 	let city_name = document.getElementById("city-name");
 	let city_departement = document.getElementById("city-departement");
 	const url = `https://geo.api.gouv.fr/communes?nom=${city}&fields=departement&boost=population&limit=5`;
-	let promise = fetch(url);
-	promise
-		.then(res => res.json())
-		.then(data => {
-			console.log(data);
-			city_name.innerText = data[0].nom;
-			city_departement.innerText = data[0].departement.code;
-			let codeInsee = data[0].code;
-			console.log(codeInsee)
-			meteoConcept(codeInsee);
-					});
+	let response = await fetch(url);
+	let data = await response.json();
+	console.log(data);
+	city_name.innerText = data[0].nom;
+	city_departement.innerText = data[0].departement.code;
+	let codeInsee = data[0].code;
+	console.log(codeInsee)
+	meteoConcept(codeInsee);
 }
 
 function weatherstackApi(city) {
@@ -57,7 +55,7 @@ function weatherstackApi(city) {
 	let temperature  = document.getElementById("weatherstack-temperature");	
 	let windDir = document.getElementById("weatherstack-wind-direction");	
 	let windSpeed = document.getElementById("weatherstack-wind-speed");
-	let promise = fetch(url);
+	const promise = fetch(url);
 	promise
 		.then(res => res.json())
 		.then(data => {
