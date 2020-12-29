@@ -3,7 +3,7 @@ import {weatherstackApi} from './weatherStackApiModule.js';
 import {meteoConcept} from "./meteoConceptModule.js";
 import {previsionmeteoApi} from "./previsionsMeteoModule.js";
 
-async function callApi() {
+export async function callApi() {
 	const loader = document.getElementsByClassName("loader");
 	const weatherstackloader = document.getElementById("disp-weatherstack");
 	const previsionsmeteoloader = document.getElementById("disp-previsionsmeteo");
@@ -31,3 +31,5 @@ async function callApi() {
 	meteoConcept(codeInsee);
 	button.disabled = false;
 }
+
+

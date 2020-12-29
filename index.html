@@ -6,17 +6,17 @@
 	</head>
 	<link rel="stylesheet" type="text/css" href="style.css">
 	<body>
+	<script type="module">
+			import {callApi} from './index.js';
+			window.callApi = callApi;
+	</script>
 		</div>
 		<h1>Get data from form</h1>
-		<!--
-			ON NE VEUT PAS DE FORMULAIRE CLASSIQUE CAR ON NE VEUT PAS RECHARGER TOUTE LA PAGE
-			DONC PAS BESOIN DE METHOD ET SURTOUT, ON REMPLACE LE SUBMIT PAR UN BUTTON (EN PRECISANT TYPE="BUTTON"), CE QUI EMPECHE L'ENVOI DU FORMULAIRE
-			ON DEFINIT EGALEMENT UNE METHODE A APPELER (CALLAPI() ICI)
-		-->
 		<form name="inscription" id="inscription">
 			<input type="text" name="pseudo" placeholder="Ville" id="input-city" value="paris"><br><!-- ID ET CLASSES HTML EN KEBAB CASE OU SNAKE CASE -->
 
 			<button type="button" onclick="callApi()">Submit</button>
+
 		</form>
 
 		<p style="color: red;" id="error"></p>
@@ -67,6 +67,5 @@
 				</tr>
 			</table>
 		</div>
-		<script type="module" src="index.js"></script>
 	</body>
-</html>​
+</html>x²
