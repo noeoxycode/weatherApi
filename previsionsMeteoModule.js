@@ -1,6 +1,6 @@
 //lien vers l'api :  https://www.prevision-meteo.ch/services
 //sa doc pour json : https://www.prevision-meteo.ch/uploads/pdf/recuperation-donnees-meteo.pdf
-import {meteo} from "./index.js";
+import {meteo} from "./dictionnaries_module.js";
 
 export async function previsionmeteoApi (city) {
 	const url = `https://www.prevision-meteo.ch/services/json/${city}`;

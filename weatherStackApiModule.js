@@ -1,4 +1,4 @@
-import {meteo} from "./index.js";
+import {meteo} from "./dictionnaries_module.js";
 
 export async function weatherstackApi(city) {
 	const accessKey = "fcece908fe429e785ee4a28314e30573";

@@ -1,4 +1,4 @@
-import {meteo} from "./index.js";
+import {meteo} from "./dictionnaries_module.js";
 
 export async function meteoConcept(codeInsee) {
 	const accessKey = "8eea2f3c24232fdb26e1c409ac3bf10fe27600e0e6795c02052d8e113d29e91f";
