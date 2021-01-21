@@ -3,17 +3,16 @@
 	<head>
 		<meta charset="utf-8">
 		<title>Get data from form</title>
+		<link rel="stylesheet" type="text/css" href="style.css">
 	</head>
-	<link rel="stylesheet" type="text/css" href="style.css">
 	<body>
 	<script type="module">
 			import {callApi} from './index.js';
 			window.callApi = callApi;
 	</script>
-		</div>
 		<h1>Get data from form</h1>
 		<form name="inscription" id="inscription">
-			<input type="text" name="pseudo" placeholder="Ville" id="input-city" value="paris"><br><!-- ID ET CLASSES HTML EN KEBAB CASE OU SNAKE CASE -->
+			<input type="text" name="pseudo" placeholder="Ville" id="input-city" value="paris"><br>
 
 			<button type="button" onclick="callApi()">Submit</button>
 
@@ -68,4 +67,4 @@
 			</table>
 		</div>
 	</body>
-</html>x²
+</html>

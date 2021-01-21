@@ -1,28 +1,23 @@
 //lien vers l'api :  https://www.prevision-meteo.ch/services
 //sa doc pour json : https://www.prevision-meteo.ch/uploads/pdf/recuperation-donnees-meteo.pdf
 import {meteo} from "./dictionnaries_module.js";
+import {displayApi} from "./displayApi.js";
 
 export async function previsionmeteoApi (city) {
 	const url = `https://www.prevision-meteo.ch/services/json/${city}`;
-	const outputCity = document.getElementById("disp-previsionsmeteo");
-	let weatherDesscription = document.getElementById("previsionsmeteo-weather-descriptions");
-	let humidity = document.getElementById("previsionsmeteo-humidity");
-	let pressure  = document.getElementById("previsionsmeteo-pressure");
-	let temperature  = document.getElementById("previsionsmeteo-temperature");
-	let windDir = document.getElementById("previsionsmeteo-wind-direction");
-	let windSpeed = document.getElementById("previsionsmeteo-wind-speed");
-	const promise = fetch(url);
 	let response = await fetch(url);
 	let data = await response.json();
-	humidity.innerText = data.current_condition.humidity;
-	pressure.innerText = data.current_condition.pressure;
-	temperature.innerText = data.current_condition.tmp;
-	windDir.innerText = data.current_condition.wnd_dir;
-	windSpeed.innerText = data.current_condition.wnd_spd;
-	const weatherCode = data.current_condition.condition;
-	let finalData = weatherCodePrevisionsMeteo(weatherCode);
-	weatherDesscription.innerText = finalData.weatherDescription;
-	outputCity.src = finalData.iconUrl;
+	var previsionsMeteoInfo =
+		{
+			humidity : data.current_condition.humidity,
+			pressure : data.current_condition.pressure,
+			temperature : data.current_condition.tmp,
+			windDir : data.current_condition.wnd_dir,
+			windSpeed : data.current_condition.wnd_spd,
+			meteoObject : weatherCodePrevisionsMeteo(data.current_condition.condition),
+			apiId: "previsionsmeteo",
+		}
+	displayApi(previsionsMeteoInfo)
 }
 
 function weatherCodePrevisionsMeteo(weatherCode)
@@ -33,7 +28,7 @@ function weatherCodePrevisionsMeteo(weatherCode)
 		"Pluie faible": meteo.lightRain,
 		"Pluie modérée": meteo.rain,
 		"Pluie forte": meteo.strongRain,
-		"Ciel voilé ": meteo.cloudy,
+		"Ciel voilé": meteo.cloudy,
 		"Nuit légèrement voilée": meteo.cloudy,
 		"Faibles passages nuageux": meteo.cloudy,
 		"Stratus": meteo.cloudy,
@@ -64,6 +59,6 @@ function weatherCodePrevisionsMeteo(weatherCode)
 		"Averses de neige faible": meteo.downpourSnow,
 		"Nuit avec averses de neige faible": meteo.downpourSnow,
 	}
-	let weatherCodeLocal = previsionsMeteoDictionnary[weatherCode];
-	return weatherCodeLocal;
+	let meteoObject = previsionsMeteoDictionnary[weatherCode];
+	return meteoObject;
 }

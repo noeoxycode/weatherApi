@@ -1,28 +1,22 @@
 import {meteo} from "./dictionnaries_module.js";
+import {displayApi} from "./displayApi.js";
 
 export async function meteoConcept(codeInsee) {
 	const accessKey = "8eea2f3c24232fdb26e1c409ac3bf10fe27600e0e6795c02052d8e113d29e91f";
 	const url = `https://api.meteo-concept.com/api/forecast/nextHours?token=${accessKey}&insee=77139`;
-	console.log(url);
-	const outputCity = document.getElementById("disp-meteoconcept");
-	let weatherDesscription = document.getElementById("meteoconcept-weather-descriptions");
-	let humidity = document.getElementById("meteoconcept-humidity");
-	let pressure = document.getElementById("meteoconcept-pressure");
-	let temperature = document.getElementById("meteoconcept-temperature");
-	let windDir = document.getElementById("meteoconcept-wind-direction");
-	let windSpeed = document.getElementById("meteoconcept-wind-speed");
-	let promise = fetch(url);
 	let response = await fetch(url);
 	let data = await response.json();
-	console.log(data);
-	humidity.innerText = data.forecast[0].rh2m;
-	windDir.innerText = convertorDegreeToString(data.forecast[0].dirwind10m);
-	windSpeed.innerText = data.forecast[0].wind10m
-	temperature.innerText = data.forecast[0].temp2m;
-	const weatherCode = data.forecast[0].weather;
-	let finalData = weatherCodeMeteoConcept(weatherCode);
-	weatherDesscription.innerText = finalData.weatherDescription;
-	outputCity.src = finalData.iconUrl;
+	var meteoConceptInfos =
+		{
+		humidity : data.forecast[0].rh2m,
+		pressure: 15,
+		temperature : data.forecast[0].temp2m,
+		windDir : convertorDegreeToString(data.forecast[0].dirwind10m),
+		windSpeed : data.forecast[0].wind10m,
+		meteoObject : weatherCodeMeteoConcept(data.forecast[0].weather),
+		apiId : "meteoconcept"
+	}
+	displayApi(meteoConceptInfos)
 }
 
 function weatherCodeMeteoConcept (weatherCode)
@@ -117,8 +111,8 @@ function weatherCodeMeteoConcept (weatherCode)
 		232: meteo.rainAndSnow,
 		235: meteo.hail,
 	}
-	let weatherCodeLocal = meteoConceptDictionnary[weatherCode];
-	return weatherCodeLocal;
+	let meteoObject = meteoConceptDictionnary[weatherCode];
+	return meteoObject;
 }
 
 

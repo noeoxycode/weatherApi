@@ -1,27 +1,24 @@
 import {meteo} from "./dictionnaries_module.js";
+import {displayApi} from "./displayApi.js";
+
 
 export async function weatherstackApi(city) {
 	const accessKey = "fcece908fe429e785ee4a28314e30573";
 	const url = `http://api.weatherstack.com/current?access_key=${accessKey}&query=${city}`;
-	const outputCity = document.getElementById("disp-weatherstack");
-	let weatherDesscription = document.getElementById("weatherstack-weather-descriptions");
-	let humidity = document.getElementById("weatherstack-humidity");
-	let pressure  = document.getElementById("weatherstack-pressure");
-	let temperature  = document.getElementById("weatherstack-temperature");
-	let windDir = document.getElementById("weatherstack-wind-direction");
-	let windSpeed = document.getElementById("weatherstack-wind-speed");
-	const promise = fetch(url);
 	let response = await fetch(url);
 	let data = await response.json();
-	humidity.innerText = data.current.humidity;
-	pressure.innerText = data.current.pressure;
-	temperature.innerText = data.current.temperature;
-	windDir.innerText = data.current.wind_dir;
-	windSpeed.innerText = data.current.wind_speed;
-	let weatherCode = data.current.weather_code;
-	let finalData = weatherCodeWeatherStack(weatherCode);
-	weatherDesscription.innerText = finalData.weatherDescription;
-	outputCity.src = finalData.iconUrl;
+	var weatherstackInfo = {
+		humidity : data.current.humidity,
+		pressure : data.current.pressure,
+		temperature : data.current.temperature,
+		windDir : data.current.wind_dir,
+		windSpeed : data.current.wind_speed,
+		meteoObject : weatherCodeWeatherStack(data.current.weather_code),
+		apiId : "weatherstack"
+	}
+	displayApi(weatherstackInfo);
+	return weatherstackInfo;
+
 }
 
 function weatherCodeWeatherStack(weatherCode) {
@@ -29,8 +26,8 @@ function weatherCodeWeatherStack(weatherCode) {
 		113: meteo.sunny,
 		296: meteo.lightRain,
 		302: meteo.rain,
-		305: meteo.storngRain,
-		308: meteo.storngRain,
+		305: meteo.strongRain,
+		308: meteo.strongRain,
 		116: meteo.cloudy,
 		119: meteo.cloudy,
 		122: meteo.cloudy,
@@ -52,6 +49,6 @@ function weatherCodeWeatherStack(weatherCode) {
 		299: meteo.downpour,
 		179: meteo.downpourSnow,
 	}
-	let weatherCodeLocal = weatherStacDictionnary[weatherCode];
-	return weatherCodeLocal;
+	let meteoObject = weatherStacDictionnary[weatherCode];
+	return meteoObject;
 }
